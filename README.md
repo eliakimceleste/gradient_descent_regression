@@ -1,2 +1,2 @@
 # gradient_descent_regression
-Coder l'algorithme de la régression linéaire de zéro
+Coder les algorithmes de ML/DL from scratch
