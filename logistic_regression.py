@@ -14,7 +14,8 @@ class LogisticRegression:
             W (array): Initialized weights.
             b (scalar): Initialized bias.
         """
-        W = np.random.randn(size= n)
+        W = np.random.randn(n) # Initialize W
+        W= W.reshape(-1, 1) # Reshape W to (n, 1)
         b = 0
         return W, b
 
@@ -105,3 +106,7 @@ class LogisticRegression:
             dj_dw, dj_db = self.compute_gradient(y_predict, X, y) # Compute gradient
             W, b = self.update_parameters(W, b, dj_dw, dj_db, learning_rate) # Update parameters
             return W, b, cost
+
+a = np.random.randn(10)
+a = a.reshape(-1, 1)
+print(a, "\n", a.shape)
