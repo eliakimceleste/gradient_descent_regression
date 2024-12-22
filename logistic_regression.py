@@ -2,6 +2,10 @@ import numpy as np
 
 class LogisticRegression:
 
+    w = 0
+    B = 0
+    cost = []
+
     def __init__(self):
         pass
 
@@ -14,8 +18,7 @@ class LogisticRegression:
             W (array): Initialized weights.
             b (scalar): Initialized bias.
         """
-        W = np.random.randn(n) # Initialize W
-        W= W.reshape(-1, 1) # Reshape W to (n, 1)
+        W = np.random.randn(n, 1) # Initialize W
         b = 0
         return W, b
 
@@ -45,8 +48,8 @@ class LogisticRegression:
             cost (scalar): The cost of the model.
         """
         m = len(y)
-        cost = (1/m) * np.sum(-y * np.log(predictions) - (1 - y) * np.log(1 - predictions))
-        return cost
+        c = (1/m) * np.sum(-y * np.log(predictions) - (1 - y) * np.log(1 - predictions))
+        return c
     
     def compute_gradient(self, predictions, X, y):
 
@@ -102,11 +105,32 @@ class LogisticRegression:
         W, b = self.initialize_parameters(n) # Initialize parameters
         for iteration in num_iterations:
             y_predict = self.predict(X, W, b) #Make predictions
-            cost.append(self.cost(y_predict, y)) # Compute prediction's cost
+            c = self.cost(y_predict, y)
+            LogisticRegression.cost.append(self.cost(y_predict, y)) # Compute prediction's cost
             dj_dw, dj_db = self.compute_gradient(y_predict, X, y) # Compute gradient
             W, b = self.update_parameters(W, b, dj_dw, dj_db, learning_rate) # Update parameters
-            return W, b, cost
+            print(f"**Cost **: {c}")
+        LogisticRegression.w = W
+        LogisticRegression.B = b
+        return W, b
 
+    def make_prediction(self, X):
+        """
+        Make predictions using the trained model.
+        Args:
+            X (ndarray): Shape(m,) Input to the model.
+            W (scalar): Weight of the model.
+            b (scalar): Bias of the model.
+        
+        Returns:
+            predictions (ndarray): Predicted values.
+        """
+        a = self.predict(X, LogisticRegression.w, LogisticRegression.B)
+        if a >= 0.5:
+            return 1
+        else:
+            return 0
+        
 a = np.random.randn(10)
 a = a.reshape(-1, 1)
 print(a, "\n", a.shape)
